@@ -351,8 +351,8 @@ void hardModeQM() {
     for (int i = 1; i <= 5; i++) {
         char op = getOperation();
         srand(time(NULL));
-        int num1 = rand() % 10 + 10;
-        int num2 = rand() % 10 + 10;
+        int num1 = rand() % 10 + 11;
+        int num2 = rand() % 10 + 11;
         
         if (op == '+')
             correctAns = num1 + num2;
