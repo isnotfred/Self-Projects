@@ -60,7 +60,7 @@ int main () {
             cout << "*******************************\n";
             break;        
         default:
-            cout << "Invalid number!\n";
+            cout << "Invalid input!\n";
             break;
         }
     } while(gameChoice !=4);
