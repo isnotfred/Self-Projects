@@ -276,14 +276,14 @@ void playQM() {
             auto startTime = steady_clock::now();
             easyModeQM();
             auto endTime = steady_clock::now();
-            auto elapsedTime = duration_cast<milliseconds>(endTime - startTime);
+            auto elapsedTime = duration_cast<seconds>(endTime - startTime);
             cout << "Finished in " << elapsedTime.count() << " seconds.\n";
         } else if (difficulty == 2) {
             cout << "Start\n";
             auto startTime = steady_clock::now();
             hardModeQM();
             auto endTime = steady_clock::now();
-            auto elapsedTime = duration_cast<milliseconds>(endTime - startTime);
+            auto elapsedTime = duration_cast<seconds>(endTime - startTime);
             cout << "Finished in " << elapsedTime.count() << " seconds.\n";
         } else if (difficulty == 3) {
             break;
