@@ -102,6 +102,7 @@ char getPlayerChoice() {
         if (playerChoice != 'r' && playerChoice != 'p' && playerChoice != 's') {
             cout << "Invalid! Please enter r/p/s.\n";
             cin.clear();
+            cin.ignore(1000, '\n');
         }
     } while (playerChoice != 'r' && playerChoice != 'p' && playerChoice != 's');
     return playerChoice;
@@ -336,6 +337,7 @@ void easyModeQM() {
 
         if (cin.fail()) {
             cin.clear();
+            cin.ignore(1000, '\n');
             continue;
         }
         if (ans == correctAns)
@@ -364,6 +366,7 @@ void hardModeQM() {
 
         if (cin.fail()) {
             cin.clear();
+            cin.ignore(1000, '\n');
             continue;
         }
         if (ans == correctAns)
