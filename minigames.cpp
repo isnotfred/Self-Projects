@@ -64,7 +64,7 @@ int main () {
             break;
         }
     } while(gameChoice !=4);
-
+    return 0;
 }
 //Function to start Rock-Paper-Scissors
 void playRPS() {
