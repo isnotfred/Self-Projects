@@ -34,17 +34,22 @@ bool checkTie(char *spaces);
 int main () {
     int gameChoice; 
     do {
-    cout << "*******************************\n";
-    cout << "Welcome to Minigames!\n";
-    cout << "*******************************\n";
-    cout << "Choose a game:\n";
-    cout << "1 Rock-Paper-Scissors\n";
-    cout << "2 Guess the Number\n";
-    cout << "3 Quick Math\n";
-    cout << "4 Tic-Tac-Toe\n";
-    cout << "5 Exit\n";
-    cout << "*******************************\n";
-    cin >> gameChoice;
+        cout << "*******************************\n";
+        cout << "Welcome to Minigames!\n";
+        cout << "*******************************\n";
+        cout << "Choose a game:\n";
+        cout << "1 Rock-Paper-Scissors\n";
+        cout << "2 Guess the Number\n";
+        cout << "3 Quick Math\n";
+        cout << "4 Tic-Tac-Toe\n";
+        cout << "5 Exit\n";
+        cout << "*******************************\n";
+
+        cin >> gameChoice;
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(1000, '\n');
+        }
 
         switch (gameChoice)
         {
@@ -79,7 +84,7 @@ int main () {
             cout << "Invalid input!\n";
             break;
         }
-    } while(gameChoice != 5);
+    } while(cin.fail() || gameChoice != 5);
     return 0;
 }
 //Function to start Rock-Paper-Scissors
@@ -323,7 +328,7 @@ void playQM() {
         }
     } while (playAgain == 'y');
 }
-//Generate random operation for QM
+//Generates a random operation for QM
 char getOperation() {
     char op;
     srand(time(NULL));
@@ -491,7 +496,7 @@ void playTicTacToe() {
         }        
     } while (playAgain == 'y');
 }
-
+//Update and draw the board for Tic-Tac-Toe
 void drawBoard(char *spaces) {
     cout << "1      |2      |3      " << '\n';
     cout << "   " << spaces[0] << "   |   " << spaces[1] << "   |   " << spaces[2] << "   " << '\n';
@@ -503,7 +508,7 @@ void drawBoard(char *spaces) {
     cout << "   " << spaces[6] << "   |   " << spaces[7] << "   |   " << spaces[8] << "   " << '\n'; 
     cout << "       |       |       " << '\n';
 }
-
+//Check first player (player/computer)
 bool checkFirst() {
     srand(time(0));
     int playerFirst = rand() % 2;
@@ -511,7 +516,7 @@ bool checkFirst() {
     if (playerFirst == 0) return true;
     else return false;
 }
-
+//Prompt player to input their move
 void getPlayerMove(char *spaces, char player) {
     int number;
     do {
@@ -531,7 +536,7 @@ void getPlayerMove(char *spaces, char player) {
         }
     } while (spaces[number] != ' ' || number < 0 || number > 8);
 }
-
+//Randomly generate computer's move
 void getComputerMove(char *spaces, char computer) {
     int number;
     srand(time(0));
@@ -544,7 +549,7 @@ void getComputerMove(char *spaces, char computer) {
         }
     }
 }
-
+//Check if there is a winner after a move
 bool checkWinner(char *spaces, char player, char computer) {
     if (spaces[0] != ' ' && spaces[0] == spaces[1] && spaces[1] == spaces[2])
         spaces[0] == player ? cout << "Player Wins!\n" : cout << "Computer Wins!\n";
@@ -567,7 +572,7 @@ bool checkWinner(char *spaces, char player, char computer) {
     return true;
     cout << "*******************************\n";
 }
-
+//Check if all spots have been filled which results in a tie
 bool checkTie(char *spaces) {
     for (int i = 0; i < 9; i++) {
         if (spaces[i] == ' ')
