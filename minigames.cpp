@@ -1,6 +1,7 @@
 #include <iostream>
 #include <chrono>
 #include <iomanip>
+#include <ctime>
 using namespace std;
 using namespace std::chrono;
 
@@ -21,6 +22,14 @@ void easyModeQM();
 void hardModeQM();
 char getOperation();
 
+void playTicTacToe();
+void drawBoard(char *spaces);
+bool checkFirst();
+void getPlayerMove(char *spaces, char player);
+void getComputerMove(char *spaces, char player);
+bool checkWinner(char *spaces, char player, char computer);
+bool checkTie(char *spaces);
+
 //Main Function - Select Game
 int main () {
     int gameChoice; 
@@ -32,7 +41,8 @@ int main () {
     cout << "1 Rock-Paper-Scissors\n";
     cout << "2 Guess the Number\n";
     cout << "3 Quick Math\n";
-    cout << "4 Exit\n";
+    cout << "4 Tic-Tac-Toe\n";
+    cout << "5 Exit\n";
     cout << "*******************************\n";
     cin >> gameChoice;
 
@@ -56,6 +66,12 @@ int main () {
             break;
         case 4:
             cout << "*******************************\n";
+            cout << "Welcome to Tic-Tac-Toe!\n";
+            cout << "*******************************\n";
+            playTicTacToe();
+            break;  
+        case 5:
+            cout << "*******************************\n";
             cout << "Thank you for playing\n";
             cout << "*******************************\n";
             break;        
@@ -63,7 +79,7 @@ int main () {
             cout << "Invalid input!\n";
             break;
         }
-    } while(gameChoice !=4);
+    } while(gameChoice != 5);
     return 0;
 }
 //Function to start Rock-Paper-Scissors
@@ -91,7 +107,7 @@ void playRPS() {
             cout << "Invalid input!\n";
             break;
         }
-    } while(playAgain != 'n');
+    } while (playAgain != 'n');
 }
 //Prompt player to input (rock/paper/scissors)
 char getPlayerChoice() {
@@ -123,7 +139,7 @@ void showPlayerChoice(char playerChoice) {
 }
 //Generate random computer choice (rock/paper/scissors)
 char getComputerChoice() {
-    srand(time(NULL));
+    srand(time(0));
     int ranNum = rand() % 3 + 1;
     char computerChoice;
     if (ranNum == 1) {
@@ -177,10 +193,12 @@ void playGTN() {
         if (difficulty == 1) {
             cout << "Start\n";
             easyModeGTN();
-        } else if (difficulty == 2) {
+        } 
+        else if (difficulty == 2) {
             cout << "Start\n";
             hardModeGTN();
-        } else if (difficulty == 3) {
+        } 
+        else if (difficulty == 3) {
             break;
         }
         cout << "*******************************\n";
@@ -197,7 +215,7 @@ void playGTN() {
             cout << "Invalid input!\n";
             break;
         }
-    } while(playAgain != 'n');
+    } while (playAgain == 'y');
 }
 //Prompt player to choose difficulty
 int chooseDifficulty() {
@@ -240,7 +258,7 @@ void easyModeGTN() {
             }
         } else
             cout << "Invalid input!\n";
-    } while(guess != ranNum);
+    } while (guess != ranNum);
 }
 //Start GTN Hard Mode
 void hardModeGTN() {
@@ -265,7 +283,7 @@ void hardModeGTN() {
             }
         } else
             cout << "Invalid input!\n";
-    } while(guess != ranNum);
+    } while (guess != ranNum);
 }
 //Function to start Quick Math (QM)
 void playQM() {
@@ -303,7 +321,7 @@ void playQM() {
             cout << "Invalid input!\n";
             break;
         }
-    } while(playAgain != 'n');
+    } while (playAgain == 'y');
 }
 //Generate random operation for QM
 char getOperation() {
@@ -373,4 +391,188 @@ void hardModeQM() {
             score++;
     }
     cout << "You got " << score << "/5!\n";
+}
+//Function to start Tic-Tac-Toe
+void playTicTacToe() {
+    char spaces[9] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+    char player, computer;
+    bool playerFirst = checkFirst();
+    char playAgain;
+    int sizeSpaces = sizeof(spaces)/sizeof(spaces[0]);
+
+    do {
+        bool running = true;
+        if (playerFirst == true) {
+            player = 'O';
+            computer = 'X'; 
+
+            drawBoard(spaces);
+            do {
+                cout << "*******************************\n";
+                cout << "Player's turn! (" << player << ")\n";
+                getPlayerMove(spaces, player);
+                cout << "*******************************\n";
+                drawBoard(spaces);
+                cout << "*******************************\n";
+                if (checkWinner(spaces, player, computer)) {
+                    running = false;
+                    break;
+                }
+                else if (checkTie(spaces)) {
+                    running = false;
+                    break;
+                }
+                cout << "Computer's turn! (" << computer << ")\n";
+                cout << "*******************************\n";
+                getComputerMove(spaces, computer);
+                drawBoard(spaces);
+                if (checkWinner(spaces, player, computer)) {
+                    running = false;
+                    break;
+                }
+                else if (checkTie(spaces)) {
+                    running = false;
+                    break;
+                }
+            } while (running);
+        } 
+        else {
+            player = 'X';
+            computer = 'O';
+
+            do {
+                cout << "Computer's turn! (" << computer << ")\n";
+                getComputerMove(spaces, computer);
+                cout << "*******************************\n";
+                drawBoard(spaces);
+                cout << "*******************************\n";
+                if (checkWinner(spaces, player, computer)) {
+                    running = false;
+                    break;
+                }
+                if (checkTie(spaces)) {
+                    running = false;
+                    break;
+                }
+                cout << "Player's turn! (" << player << ")\n";
+                getPlayerMove(spaces, player);
+                cout << "*******************************\n";
+                drawBoard(spaces);
+                cout << "*******************************\n";
+                if (checkWinner(spaces, player, computer)) {
+                    running = false;
+                    break;
+                }
+                if (checkTie(spaces)) {
+                    running = false;
+                    break;
+                }
+            } while (running);  
+        }
+        cout << "*******************************\n";
+        cout << "Play again? (y/n)\n";
+        cout << "*******************************\n";
+        cin >> playAgain;
+
+        switch (playAgain) {
+        case 'y':
+            for (int i = 0; i < sizeSpaces; i++) {
+                spaces[i] = ' ';
+            }
+            break;
+        case 'n':
+            for (int i = 0; i < sizeSpaces; i++) {
+                spaces[i] = ' ';
+            }
+            break;
+        default:
+            cout << "Invalid input!\n";
+            break;
+        }        
+    } while (playAgain == 'y');
+}
+
+void drawBoard(char *spaces) {
+    cout << "1      |2      |3      " << '\n';
+    cout << "   " << spaces[0] << "   |   " << spaces[1] << "   |   " << spaces[2] << "   " << '\n';
+    cout << "_______|_______|_______" << '\n';
+    cout << "4      |5      |6      " << '\n';
+    cout << "   " << spaces[3] << "   |   " << spaces[4] << "   |   " << spaces[5] << "   " << '\n';
+    cout << "_______|_______|_______" << '\n';   
+    cout << "7      |8      |9      " << '\n';  
+    cout << "   " << spaces[6] << "   |   " << spaces[7] << "   |   " << spaces[8] << "   " << '\n'; 
+    cout << "       |       |       " << '\n';
+}
+
+bool checkFirst() {
+    srand(time(0));
+    int playerFirst = rand() % 2;
+
+    if (playerFirst == 0) return true;
+    else return false;
+}
+
+void getPlayerMove(char *spaces, char player) {
+    int number;
+    do {
+        cout << "Enter number where you want to place (1-9): ";
+        cin >> number;
+        number--;
+
+        if (spaces[number] == ' ' && number >= 0 && number <= 8) {
+            spaces[number] = player;
+            break;
+        } else if (cin.fail() || number < 0 || number > 8) {
+        cout << "Invalid input!\n";
+        cin.clear();
+        cin.ignore(1000, '\n');
+        } else {
+        cout << "Space is occupied!\n";
+        }
+    } while (spaces[number] != ' ' || number < 0 || number > 8);
+}
+
+void getComputerMove(char *spaces, char computer) {
+    int number;
+    srand(time(0));
+    while (true) {
+        int number = rand() % 9;
+
+        if (spaces[number] == ' ') {
+            spaces[number] = computer;
+            break;
+        }
+    }
+}
+
+bool checkWinner(char *spaces, char player, char computer) {
+    if (spaces[0] != ' ' && spaces[0] == spaces[1] && spaces[1] == spaces[2])
+        spaces[0] == player ? cout << "Player Wins!\n" : cout << "Computer Wins!\n";
+    else if (spaces[3] != ' ' && spaces[3] == spaces[4] && spaces[4] == spaces[5])
+        spaces[3] == player ? cout << "Player Wins!\n" : cout << "Computer Wins!\n";
+    else if (spaces[6] != ' ' && spaces[6] == spaces[7] && spaces[7] == spaces[8])
+        spaces[6] == player ? cout << "Player Wins!\n" : cout << "Computer Wins!\n";
+    else if (spaces[0] != ' ' && spaces[0] == spaces[3] && spaces[3] == spaces[6])
+        spaces[0] == player ? cout << "Player Wins!\n" : cout << "Computer Wins!\n";
+    else if (spaces[1] != ' ' && spaces[1] == spaces[4] && spaces[4] == spaces[7])
+        spaces[1] == player ? cout << "Player Wins!\n" : cout << "Computer Wins!\n";
+    else if (spaces[2] != ' ' && spaces[2] == spaces[5] && spaces[5] == spaces[8])
+        spaces[2] == player ? cout << "Player Wins!\n" : cout << "Computer Wins!\n";
+    else if (spaces[0] != ' ' && spaces[0] == spaces[4] && spaces[4] == spaces[8])
+        spaces[0] == player ? cout << "Player Wins!\n" : cout << "Computer Wins!\n";
+    else if (spaces[2] != ' ' && spaces[2] == spaces[4] && spaces[4] == spaces[6])
+        spaces[2] == player ? cout << "Player Wins!\n" : cout << "Computer Wins!\n";  
+    else
+        return false;
+    return true;
+    cout << "*******************************\n";
+}
+
+bool checkTie(char *spaces) {
+    for (int i = 0; i < 9; i++) {
+        if (spaces[i] == ' ')
+            return false;
+    }
+    cout << "It's a tie!\n";
+    return true;
 }
