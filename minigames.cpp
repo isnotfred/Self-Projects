@@ -577,7 +577,8 @@ bool checkTie(char *spaces) {
     for (int i = 0; i < 9; i++) {
         if (spaces[i] == ' ')
             return false;
+        else
+            cout << "It's a tie!\n";
     }
-    cout << "It's a tie!\n";
     return true;
 }
